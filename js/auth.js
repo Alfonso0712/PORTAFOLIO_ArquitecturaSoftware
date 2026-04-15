@@ -52,52 +52,59 @@ async function verificarSesion() {
   }
 }
 
-// 5. Gestión de Archivos: Subir (Detecta Unidad y Semana)
+// 5. Gestión de Archivos: Subir (Mantiene nombre original + Prefijo Semana)
 async function subirArchivo(input, semana) {
   const file = input.files[0];
   if (!file) return;
 
-  // 1. Obtenemos la unidad y limpiamos espacios
+  // 1. Obtenemos la unidad
   const unidadActual = (document.body.dataset.unidad || "unidad1").trim();
 
-  // 2. Limpiamos el nombre del archivo (QUITAMOS TILDES Y ESPACIOS)
-  // Esto evita el error de "Invalid Key"
-  const nombreLimpio = file.name
+  // 2. PROCESAMOS EL NOMBRE ORIGINAL
+  // Separamos el nombre de la extensión (ejemplo: "DNI" y ".pdf")
+  const nombreOriginal = file.name;
+  const ultimaPosicionPunto = nombreOriginal.lastIndexOf(".");
+  const extension = nombreOriginal.substring(ultimaPosicionPunto); // .pdf, .jpg, etc.
+  const nombreSinExtension = nombreOriginal.substring(0, ultimaPosicionPunto);
+
+  // 3. LIMPIAMOS EL NOMBRE (Quitamos tildes, espacios y caracteres raros)
+  const nombreLimpio = nombreSinExtension
     .normalize("NFD")
     .replace(/[\u0300-\u036f]/g, "") // Quita tildes
-    .replace(/[^a-zA-Z0-9.]/g, "_"); // Cambia todo lo raro por guion bajo
+    .replace(/[^a-zA-Z0-9]/g, "_"); // Cambia espacios y raros por "_"
 
-  const timestamp = Date.now();
+  // 4. CONSTRUIMOS EL NUEVO NOMBRE: semanaX_nombreOriginal.extension
+  const nuevoNombre = `semana${semana}_${nombreLimpio}${extension}`;
 
-  // 3. CONSTRUIMOS LA RUTA (Sin barras iniciales ni espacios)
-  const filePath = `${unidadActual}/semana${semana}_${timestamp}.pdf`;
+  // 5. RUTA COMPLETA EN EL STORAGE
+  const filePath = `${unidadActual}/${nuevoNombre}`;
 
-  console.log("Intentando subir a ruta:", filePath);
+  console.log("Subiendo como:", nuevoNombre);
 
   const { data, error } = await clientSupabase.storage
     .from("proyectos")
     .upload(filePath, file, {
       cacheControl: "3600",
-      upsert: false,
+      upsert: true, // Si el archivo existe con el mismo nombre, lo actualiza
+      contentType: "application/octet-stream", // Para forzar descarga luego
     });
 
   if (error) {
     console.error("Detalle del error:", error);
     alert("Error de Supabase: " + error.message);
   } else {
-    alert("¡Archivo subido con éxito!");
+    alert(`¡Archivo "${nuevoNombre}" subido con éxito!`);
     cargarArchivosDeSemana(semana);
   }
 }
 
-// 6. Gestión de Archivos: Listar dinámicamente según la Unidad
+// MODIFICACIÓN EN LA FUNCIÓN 6: Listar archivos
 async function cargarArchivosDeSemana(numeroSemana) {
   const contenedor = document.getElementById(`archivos-semana-${numeroSemana}`);
   if (!contenedor) return;
 
   const unidadActual = document.body.dataset.unidad || "unidad1";
 
-  // Consultamos los archivos
   const { data, error } = await clientSupabase.storage
     .from("proyectos")
     .list(unidadActual, {
@@ -105,17 +112,14 @@ async function cargarArchivosDeSemana(numeroSemana) {
       search: `semana${numeroSemana}`,
     });
 
-  if (error) {
-    contenedor.innerHTML = `<small class="text-danger">Error al cargar</small>`;
+  if (error || !data || data.length === 0) {
+    contenedor.innerHTML =
+      data?.length === 0
+        ? `<small class="text-muted">No hay archivos aún.</small>`
+        : `<small class="text-danger">Error al cargar</small>`;
     return;
   }
 
-  if (!data || data.length === 0) {
-    contenedor.innerHTML = `<small class="text-muted">No hay archivos aún.</small>`;
-    return;
-  }
-
-  // VERIFICACIÓN DE ADMIN: Obtenemos el usuario actual
   const {
     data: { user },
   } = await clientSupabase.auth.getUser();
@@ -124,29 +128,51 @@ async function cargarArchivosDeSemana(numeroSemana) {
   data.forEach((archivo) => {
     const urlPublica = `${supabaseUrl}/storage/v1/object/public/proyectos/${unidadActual}/${archivo.name}`;
 
-    // Si hay usuario (Gabriel), creamos el botón de borrar. Si no, queda vacío.
     const botonBorrar = user
-      ? `<button onclick="eliminarArchivo('${unidadActual}/${archivo.name}', ${numeroSemana})" class="btn btn-sm btn-outline-danger ml-2 border-0">
-          <i class="fa fa-trash"></i>
-         </button>`
+      ? `<button onclick="eliminarArchivo('${unidadActual}/${archivo.name}', ${numeroSemana})" class="btn btn-sm btn-outline-danger border-0"><i class="fa fa-trash"></i></button>`
       : "";
 
     contenedor.innerHTML += `
-      <div class="d-flex align-items-center justify-content-between bg-white p-2 mb-2 rounded border shadow-sm">
-        <span class="small text-truncate mr-2">
-          <i class="fa fa-file-pdf text-danger mr-2"></i>${archivo.name}
-        </span>
+      <div class="file-item-tech">
+        <div class="d-flex align-items-center overflow-hidden">
+          <i class="far fa-file-alt text-primary mr-3"></i>
+          <span class="text-white small text-truncate font-weight-bold">${archivo.name}</span>
+        </div>
         <div class="d-flex align-items-center">
-          <a href="${urlPublica}" target="_blank" class="btn btn-sm btn-outline-primary" download>
+          <button onclick="verPDF('${urlPublica}', '${archivo.name}')" class="btn btn-sm btn-outline-primary border-0">
+            <i class="fa fa-eye"></i>
+          </button>
+          
+          <button onclick="forzarDescarga('${urlPublica}', '${archivo.name}')" class="btn btn-sm btn-outline-info border-0">
             <i class="fa fa-download"></i>
-          </a>
+          </button>
+
           ${botonBorrar}
         </div>
       </div>
     `;
   });
 }
+// NUEVA FUNCIÓN: Fuerza la descarga convirtiendo el archivo en un BLOB
+async function forzarDescarga(url, nombreArchivo) {
+  try {
+    const respuesta = await fetch(url);
+    const blob = await respuesta.blob(); // Convertimos el archivo a datos puros
+    const urlBlob = window.URL.createObjectURL(blob);
 
+    const link = document.createElement("a");
+    link.href = urlBlob;
+    link.download = nombreArchivo; // Aquí el navegador NO tiene otra opción más que descargar
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    window.URL.revokeObjectURL(urlBlob); // Limpiamos memoria
+  } catch (error) {
+    console.error("Error en descarga:", error);
+    // Si falla el método pro, abrimos en ventana nueva como respaldo
+    window.open(url, "_blank");
+  }
+}
 // NUEVA FUNCIÓN: Eliminar archivo de Supabase
 async function eliminarArchivo(rutaCompleta, semana) {
   const confirmar = confirm("¿Gabriel, estás seguro de borrar este archivo?");
@@ -172,3 +198,9 @@ document.addEventListener("DOMContentLoaded", () => {
     cargarArchivosDeSemana(s),
   );
 });
+
+function verPDF(url, nombre) {
+  document.getElementById("pdfFrame").src = url;
+  document.getElementById("pdfNombre").innerText = nombre;
+  $("#pdfModal").modal("show"); // Dispara el modal de Bootstrap
+}

@@ -37,7 +37,117 @@
     SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
 }
+/* Tamaño para computadoras (Pantallas grandes) */
+#accordionSemanas {
+  max-width: 65%;
+  margin-left: auto;
+  margin-right: auto;
+}
 
+/* Tamaño para celulares (Pantallas menores a 768px) */
+@media (max-width: 768px) {
+  #accordionSemanas {
+    max-width: 100%; /* En celular ocupa todo el ancho */
+    padding-left: 10px; /* Un pequeño margen para que no choque con los bordes */
+    padding-right: 10px;
+  }
+}
+
+/* Estilo para que el nombre de la semana sea visible siempre */
+.card-header-tech {
+  background: #fff !important; /* Un gris muy claro para que resalte del fondo blanco */
+  border-bottom: 2px solid #b49c73 !important; /* Una línea azul abajo para darle estilo */
+  padding: 10px !important;
+}
+
+/* Estilo del botón del encabezado */
+.card-header-tech .btn-link {
+  color: #37373f !important; /* Color gris oscuro/negro para el texto */
+  font-size: 1.1rem;
+  text-decoration: none !important;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* Cambiar el color de la flecha para que se vea */
+.card-header-tech i.fa-chevron-down {
+  color: #b49c73 !important;
+  font-size: 1.2rem;
+}
+/* Card Estilo Imagen 2 */
+.card-semana-tech {
+  background: rgba(22, 27, 34, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 20px;
+  transition: all 0.3s ease;
+  backdrop-filter: blur(10px);
+}
+
+.card-semana-tech:hover {
+  border-color: #b49c73;
+  box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
+}
+
+/* Cuerpo de la card responsivo */
+.card-semana-body {
+  display: flex;
+  flex-wrap: wrap; /* Para que en móvil se apile */
+  align-items: flex-start;
+}
+
+.card-semana-img {
+  flex: 0 0 130px;
+  margin-right: 20px;
+}
+
+.card-semana-img img {
+  width: 100%;
+  border-radius: 12px;
+  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+}
+
+.card-semana-info {
+  flex: 1;
+  min-width: 200px; /* Evita que se vea muy pequeño en móvil */
+}
+
+/* Lista de archivos (Diseño de la foto 2) */
+.archivos-container .file-item-dark {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 10px;
+  padding: 12px 15px;
+  margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  transition: 0.2s;
+}
+
+.archivos-container .file-item-dark:hover {
+  background: rgba(0, 123, 255, 0.1);
+}
+
+/* Botón de subir moderno */
+.btn-subir-tech {
+  background: transparent;
+  border: 1px dashed #b49c73;
+  color: #b49c73;
+  padding: 8px 15px;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 13px;
+  display: inline-block;
+  transition: 0.3s;
+}
+
+.btn-subir-tech:hover {
+  background: #b49c73;
+  color: white;
+}
 *,
 *::before,
 *::after {
@@ -66,7 +176,73 @@ nav,
 section {
   display: block;
 }
+#pdfModal .modal-content {
+  background-color: #161b22; /* El mismo fondo oscuro de tu web */
+  box-shadow: 0 0 25px rgba(0, 0, 0, 0.7);
+  border-radius: 15px;
+}
 
+#pdfModal .modal-header {
+  background-color: #1e232b;
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+}
+
+#pdfFrame {
+  border-bottom-left-radius: 15px;
+  border-bottom-right-radius: 15px;
+}
+/* Contenedor principal corregido */
+.file-item-tech {
+  background: #37373f !important; /* Fondo oscuro elegante */
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 10px;
+  display: flex;
+  flex-direction: row; /* Por defecto en línea */
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+}
+
+/* Nombre del archivo responsivo */
+.file-name-text {
+  color: #ffffff !important;
+  font-size: 0.85rem;
+  font-weight: 500;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-right: 10px;
+  flex-grow: 1; /* Toma todo el espacio disponible */
+}
+/* AJUSTES PARA CELULARES (Pantallas menores a 576px) */
+@media (max-width: 576px) {
+  .file-item-tech {
+    flex-direction: column; /* El nombre arriba y botones abajo */
+    align-items: flex-start;
+  }
+
+  .file-name-text {
+    width: 100%;
+    margin-bottom: 8px;
+    white-space: normal; /* Permite que el nombre use dos líneas si es necesario */
+    text-overflow: clip;
+  }
+
+  .buttons-container {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end; /* Botones a la derecha */
+    border-top: 1px solid rgba(255, 255, 255, 0.1);
+    padding-top: 8px;
+  }
+}
+/* Ajuste para los iconos */
+.file-item-tech i {
+  font-size: 1.1rem;
+}
 body {
   margin: 0;
   font-family: "Montserrat", sans-serif;
@@ -75,7 +251,7 @@ body {
   line-height: 1.5;
   color: #757575;
   text-align: left;
-  background-color: #fff;
+  background-color: #ffffff;
 }
 
 [tabindex="-1"]:focus:not(:focus-visible) {
