@@ -2,5 +2,5 @@ projectURL: slejdjsexoiprnstknbj https://slejdjsexoiprnstknbj.supabase.co
 anon key: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InNsZWpkanNleG9pcHJuc3RrbmJqIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzU5MTI1NDIsImV4cCI6MjA5MTQ4ODU0Mn0.uoR-akVPmJ-B6SMXJ8Fn0aKbHcxb2oorRW3cuceyiCQ
 pasos: git init 
 git add .
-git commit -m "Ajuste de visibilidad del boton Login en celulares"
+git commit -m "VS. 2.0"
 git push origin main
