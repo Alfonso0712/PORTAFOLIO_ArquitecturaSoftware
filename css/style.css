@@ -192,6 +192,28 @@ section {
   border-bottom-left-radius: 15px;
   border-bottom-right-radius: 15px;
 }
+
+.zoom-controls button {
+  width: 45px;
+  height: 45px;
+  opacity: 0.7;
+  transition: 0.3s;
+}
+
+.zoom-controls button:hover {
+  opacity: 1;
+  transform: translateY(-3px);
+}
+
+#imageContainer::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+#imageContainer::-webkit-scrollbar-thumb {
+  background: #333;
+  border-radius: 10px;
+}
 /* Contenedor principal corregido */
 .file-item-tech {
   background: #37373f !important; /* Fondo oscuro elegante */

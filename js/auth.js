@@ -199,8 +199,50 @@ document.addEventListener("DOMContentLoaded", () => {
   );
 });
 
+let currentZoom = 1;
+
 function verPDF(url, nombre) {
-  document.getElementById("pdfFrame").src = url;
+  const frame = document.getElementById("pdfFrame");
+  const imgCont = document.getElementById("imageContainer");
+  const imgTag = document.getElementById("pdfImage");
+
   document.getElementById("pdfNombre").innerText = nombre;
-  $("#pdfModal").modal("show"); // Dispara el modal de Bootstrap
+  resetZoom(); // Resetear zoom al abrir nuevo archivo
+
+  // 1. Detectamos extensiones de imagen (Añadimos SVG)
+  const esImagen = /\.(jpg|jpeg|png|gif|webp)$/i.test(url);
+  // 2. Detectamos si es un archivo que requiere iframe (PDF o HTML)
+  const esDocumento = /\.(pdf|html|htm)$/i.test(url);
+
+  if (esImagen) {
+    frame.classList.add("d-none");
+    imgCont.classList.remove("d-none");
+    imgTag.src = url;
+    imgTag.style.width = "auto";
+    imgTag.style.maxHeight = "100%";
+  } else {
+    // Para PDF y HTML usamos el iframe
+    imgCont.classList.add("d-none");
+    frame.classList.remove("d-none");
+    frame.src = url;
+  }
+
+  $("#pdfModal").modal("show");
+}
+
+// Funciones de la Lupa/Zoom
+function zoomImg(factor) {
+  const img = document.getElementById("pdfImage");
+  currentZoom *= factor;
+  img.style.transform = `scale(${currentZoom})`;
+  img.style.maxHeight = "none"; // Permitir que crezca más allá del contenedor
+}
+
+function resetZoom() {
+  currentZoom = 1;
+  const img = document.getElementById("pdfImage");
+  if (img) {
+    img.style.transform = `scale(1)`;
+    img.style.maxHeight = "100%";
+  }
 }
