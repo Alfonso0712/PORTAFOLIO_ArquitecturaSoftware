@@ -93,6 +93,19 @@ async function subirArchivo(input, semana) {
     console.error("Detalle del error:", error);
     alert("Error de Supabase: " + error.message);
   } else {
+    const urlPublica = `${supabaseUrl}/storage/v1/object/public/proyectos/${filePath}`;
+
+    await clientSupabase.from("recursos").insert([
+      {
+        nombre: nuevoNombre,
+        url: urlPublica,
+        tipo: "archivo",
+        semana: semana,
+        unidad: unidadActual,
+      },
+    ]);
+
+    cargarRecursosHibridos(semana);
     alert(`¡Archivo "${nuevoNombre}" subido con éxito!`);
     cargarArchivosDeSemana(semana);
   }
@@ -105,6 +118,7 @@ async function cargarArchivosDeSemana(numeroSemana) {
 
   const unidadActual = document.body.dataset.unidad || "unidad1";
 
+  // 1. Listamos TODO lo que hay en el storage para esa semana
   const { data, error } = await clientSupabase.storage
     .from("proyectos")
     .list(unidadActual, {
@@ -113,45 +127,65 @@ async function cargarArchivosDeSemana(numeroSemana) {
     });
 
   if (error || !data || data.length === 0) {
-    contenedor.innerHTML =
-      data?.length === 0
-        ? `<small class="text-muted">No hay archivos aún.</small>`
-        : `<small class="text-danger">Error al cargar</small>`;
+    contenedor.innerHTML = `<small class="text-muted">No hay recursos aún.</small>`;
     return;
   }
 
   const {
     data: { user },
   } = await clientSupabase.auth.getUser();
-
   contenedor.innerHTML = "";
-  data.forEach((archivo) => {
+
+  // 2. Iteramos los archivos encontrados
+  for (const archivo of data) {
     const urlPublica = `${supabaseUrl}/storage/v1/object/public/proyectos/${unidadActual}/${archivo.name}`;
 
-    const botonBorrar = user
-      ? `<button onclick="eliminarArchivo('${unidadActual}/${archivo.name}', ${numeroSemana})" class="btn btn-sm btn-outline-danger border-0"><i class="fa fa-trash"></i></button>`
-      : "";
+    // Detectamos si es un link por la extensión que inventamos arriba
+    const esLink = archivo.name.endsWith(".link");
+    let icono = esLink ? "fa-link" : "far fa-file-alt";
+    let nombreMostrar = archivo.name.replace(`semana${numeroSemana}_`, "");
+
+    let clickAccion = "";
+
+    if (esLink) {
+      // Si es link, debemos leer el contenido del archivo para obtener la URL real
+      try {
+        const res = await fetch(urlPublica);
+        const urlReal = await res.text();
+        clickAccion = `window.open('${urlReal}', '_blank')`;
+        nombreMostrar = nombreMostrar.replace(".link", "");
+      } catch (e) {
+        clickAccion = `console.error('Error al leer link')`;
+      }
+    } else {
+      clickAccion = `verPDF('${urlPublica}', '${archivo.name}')`;
+    }
 
     contenedor.innerHTML += `
-      <div class="file-item-tech">
-        <div class="d-flex align-items-center overflow-hidden">
-          <i class="far fa-file-alt text-primary mr-3"></i>
-          <span class="text-white small text-truncate font-weight-bold">${archivo.name}</span>
-        </div>
-        <div class="d-flex align-items-center">
-          <button onclick="verPDF('${urlPublica}', '${archivo.name}')" class="btn btn-sm btn-outline-primary border-0">
-            <i class="fa fa-eye"></i>
-          </button>
-          
-          <button onclick="forzarDescarga('${urlPublica}', '${archivo.name}')" class="btn btn-sm btn-outline-info border-0">
-            <i class="fa fa-download"></i>
-          </button>
+          <div class="file-item-tech">
+            <div class="d-flex align-items-center overflow-hidden">
+              <i class="fa ${icono} text-primary mr-3"></i>
+              <span class="text-white small text-truncate font-weight-bold">${nombreMostrar}</span>
+            </div>
+            <div class="d-flex align-items-center">
+              <button onclick="${clickAccion}" class="btn btn-sm btn-outline-primary border-0">
+                <i class="fa ${esLink ? "fa-external-link-alt" : "fa-eye"}"></i>
+              </button>
+              
+              ${
+                !esLink
+                  ? `
+              <button onclick="forzarDescarga('${urlPublica}', '${archivo.name}')" class="btn btn-sm btn-outline-info border-0">
+                <i class="fa fa-download"></i>
+              </button>`
+                  : ""
+              }
 
-          ${botonBorrar}
-        </div>
-      </div>
-    `;
-  });
+              ${user ? `<button onclick="eliminarArchivo('${unidadActual}/${archivo.name}', ${numeroSemana})" class="btn btn-sm btn-outline-danger border-0"><i class="fa fa-trash"></i></button>` : ""}
+            </div>
+          </div>
+        `;
+  }
 }
 // NUEVA FUNCIÓN: Fuerza la descarga convirtiendo el archivo en un BLOB
 async function forzarDescarga(url, nombreArchivo) {
@@ -244,5 +278,123 @@ function resetZoom() {
   if (img) {
     img.style.transform = `scale(1)`;
     img.style.maxHeight = "100%";
+  }
+}
+async function subirEnlace(semana) {
+  const url = prompt("Pega la URL del enlace:");
+  if (!url) return;
+  const nombreLink = prompt("Nombre para este enlace:", "Enlace Externo");
+  if (!nombreLink) return;
+
+  const unidadActual = (document.body.dataset.unidad || "unidad1").trim();
+  // Creamos un nombre con extensión especial .link para identificarlo
+  const nuevoNombre = `semana${semana}_${nombreLimpio(nombreLink)}.link`;
+  const filePath = `${unidadActual}/${nuevoNombre}`;
+
+  // Guardamos la URL dentro de un archivo de texto pequeño en el Storage
+  const blob = new Blob([url], { type: "text/plain" });
+  const file = new File([blob], nuevoNombre);
+
+  const { data, error } = await clientSupabase.storage
+    .from("proyectos")
+    .upload(filePath, file, { upsert: true });
+
+  if (error) {
+    alert("Error al subir link: " + error.message);
+  } else {
+    alert("¡Enlace guardado en la semana " + semana + "!");
+    cargarArchivosDeSemana(semana); // Recarga la lista
+  }
+}
+
+// Función auxiliar para limpiar nombres
+function nombreLimpio(texto) {
+  return texto
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "")
+    .replace(/[^a-zA-Z0-9]/g, "_");
+}
+async function cargarRecursosHibridos(numeroSemana) {
+  const contenedor = document.getElementById(`archivos-semana-${numeroSemana}`);
+  if (!contenedor) return;
+
+  const unidadActual = document.body.dataset.unidad || "unidad1";
+
+  // Consultamos la tabla 'recursos'
+  const { data, error } = await clientSupabase
+    .from("recursos")
+    .select("*")
+    .eq("unidad", unidadActual)
+    .eq("semana", numeroSemana);
+
+  if (error || !data || data.length === 0) {
+    contenedor.innerHTML = `<small class="text-muted">No hay recursos aún.</small>`;
+    return;
+  }
+
+  const {
+    data: { user },
+  } = await clientSupabase.auth.getUser();
+  contenedor.innerHTML = "";
+
+  data.forEach((item) => {
+    const esEnlace = item.tipo === "enlace";
+    const icono = esEnlace ? "fa-link" : "far fa-file-alt";
+
+    // Si es enlace, abre directo. Si es archivo, usa tu visualizador/descargador.
+    const accionPrincipal = esEnlace
+      ? `window.open('${item.url}', '_blank')`
+      : `verPDF('${item.url}', '${item.nombre}')`;
+
+    contenedor.innerHTML += `
+            <div class="file-item-tech">
+                <div class="d-flex align-items-center overflow-hidden">
+                    <i class="${icono} text-primary mr-3"></i>
+                    <span class="text-white small text-truncate font-weight-bold">${item.nombre}</span>
+                </div>
+                <div class="d-flex align-items-center">
+                    <button onclick="${accionPrincipal}" class="btn btn-sm btn-outline-primary border-0">
+                        <i class="fa ${esEnlace ? "fa-external-link-alt" : "fa-eye"}"></i>
+                    </button>
+                    ${
+                      !esEnlace
+                        ? `
+                    <button onclick="forzarDescarga('${item.url}', '${item.nombre}')" class="btn btn-sm btn-outline-info border-0">
+                        <i class="fa fa-download"></i>
+                    </button>`
+                        : ""
+                    }
+                    ${user ? `<button onclick="eliminarRecurso('${item.id}', '${item.url}', '${item.tipo}', ${numeroSemana})" class="btn btn-sm btn-outline-danger border-0"><i class="fa fa-trash"></i></button>` : ""}
+                </div>
+            </div>
+        `;
+  });
+}
+async function cargarRecursosDeSemana(numeroSemana) {
+  const contenedor = document.getElementById(`archivos-semana-${numeroSemana}`);
+  const unidadActual = document.body.dataset.unidad || "unidad1";
+
+  // EN LUGAR DE storage.list, usamos FROM('tu_tabla')
+  const { data, error } = await clientSupabase
+    .from("recursos") // El nombre que le hayas puesto a tu tabla
+    .select("*")
+    .eq("semana", numeroSemana)
+    .eq("unidad", unidadActual);
+
+  if (data) {
+    contenedor.innerHTML = "";
+    data.forEach((item) => {
+      // Aquí decides qué icono mostrar:
+      // Si es un link, usas fa-link. Si es archivo, far fa-file-alt.
+      const icono = item.tipo === "enlace" ? "fa-link" : "far fa-file-alt";
+
+      contenedor.innerHTML += `
+                <div class="file-item-tech">
+                    <i class="${icono} text-primary mr-3"></i>
+                    <span class="text-white small">${item.nombre}</span>
+                    <!-- Botón para abrir el link o ver el PDF -->
+                    <button onclick="window.open('${item.url}', '_blank')">Abrir</button>
+                </div>`;
+    });
   }
 }

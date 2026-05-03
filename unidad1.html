@@ -366,14 +366,21 @@
                       class="archivos-container-tech"
                     ></div>
                     <div class="admin-only mt-3">
-                      <label class="btn-subir-tech">
+                            <!-- Contenedor flexible para alinear botones -->
+                        <div class="d-flex flex-wrap align-items-center" style="gap: 10px;">
+        
+                        <!-- Botón de Subir Link (ahora con estilo coherente) -->
+                        <button class="btn-subir-link-tech" onclick="subirEnlace(4)">
+                        <i class="fa fa-link mr-2"></i> Subir Link
+                        </button>
+
+                        <!-- Botón de Subir Archivo (ya lo tenías) -->
+                        <label class="btn-subir-tech m-0">
                         <i class="fa fa-plus mr-2"></i> Subir Recurso
-                        <input
-                          type="file"
-                          hidden
-                          onchange="subirArchivo(this, 4)"
-                        />
-                      </label>
+                        <input type="file" hidden onchange="subirArchivo(this, 4)" />
+                        </label>
+        
+                      </div>
                     </div>
                   </div>
                 </div>

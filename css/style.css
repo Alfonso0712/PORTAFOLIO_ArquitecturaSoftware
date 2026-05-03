@@ -37,6 +37,49 @@
     SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
 }
+/* Botón de Enlace (Sólido) */
+.btn-subir-link-tech {
+  background-color: #b49c73; /* Tu color primario */
+  color: #ffffff;
+  border: 2px solid #b49c73;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+  height: 42px; /* Altura uniforme */
+}
+
+.btn-subir-link-tech:hover {
+  background-color: #37373f; /* Tu color secundario */
+  border-color: #37373f;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(246, 185, 30, 0.2);
+}
+
+/* Ajuste al botón de Subir Recurso para que coincida perfectamente */
+.btn-subir-tech {
+  background: transparent;
+  border: 2px dashed #b49c73; /* Borde punteado para indicar subida */
+  color: #b49c73;
+  padding: 8px 18px;
+  border-radius: 8px;
+  font-size: 13px;
+  font-weight: 600;
+  height: 42px;
+  display: inline-flex;
+  align-items: center;
+  transition: all 0.3s ease;
+}
+
+.btn-subir-tech:hover {
+  background: rgba(247, 200, 119, 0.1);
+  border-style: solid;
+  color: #b49c73;
+}
 /* Tamaño para computadoras (Pantallas grandes) */
 #accordionSemanas {
   max-width: 65%;
