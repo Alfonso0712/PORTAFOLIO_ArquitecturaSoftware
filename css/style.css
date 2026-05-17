@@ -37,56 +37,337 @@
     SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New",
     monospace;
 }
-/* Botón de Enlace (Sólido) */
-.btn-subir-link-tech {
-  background-color: #b49c73; /* Tu color primario */
-  color: #ffffff;
-  border: 2px solid #b49c73;
-  padding: 8px 18px;
+
+/* ==========================================================================
+   ESTILOS INTERACTIVOS PARA EL FOOTER
+   ========================================================================== */
+
+/* Fondo general del footer sincronizado con la nueva paleta oscura */
+.bg-secondary {
+  background-color: #11141a !important;
+  border-top: 1px solid rgba(180, 156, 115, 0.15);
+}
+
+/* Cajas de información del footer (Curso, Email, Celular) */
+.bg-secondary .row.mt-5 .col-lg-4 > div {
+  background: rgba(255, 255, 255, 0.02) !important;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    box-shadow 0.4s ease;
+}
+
+/* Transición para el ícono interior de las cajas */
+.bg-secondary .row.mt-5 .col-lg-4 > div i {
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    color 0.3s ease;
+}
+
+/* --- EFECTO HOVER (INTERACCIÓN) --- */
+.bg-secondary .row.mt-5 .col-lg-4 > div:hover {
+  transform: translateY(-6px); /* Efecto de flotación */
+  background: rgba(180, 156, 115, 0.04) !important; /* Tinte dorado sutil */
+  border-color: rgba(180, 156, 115, 0.35) !important; /* Brillo en el borde */
+  box-shadow:
+    0 15px 30px rgba(0, 0, 0, 0.4),
+    0 0 15px rgba(180, 156, 115, 0.1);
+}
+
+/* Animación del ícono al pasar el mouse por la caja */
+.bg-secondary .row.mt-5 .col-lg-4 > div:hover i {
+  color: #ffffff !important;
+  transform: scale(1.18); /* El ícono se expande ligeramente */
+  text-shadow: 0 0 12px rgba(180, 156, 115, 0.7);
+}
+
+/* Fila inferior de Copyright y Diseñador */
+.bg-secondary .row.p-4.mt-5 {
+  background: rgba(0, 0, 0, 0.25) !important;
   border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  cursor: pointer;
+  border: 1px solid rgba(255, 255, 255, 0.02);
+}
+
+/* Interacción de los enlaces de autoría */
+.bg-secondary .row.p-4.mt-5 a {
+  color: #b49c73;
+  text-decoration: none !important;
+  transition:
+    color 0.3s ease,
+    text-shadow 0.3s ease;
+}
+
+.bg-secondary .row.p-4.mt-5 a:hover {
+  color: #ffffff;
+  text-shadow: 0 0 8px rgba(180, 156, 115, 0.5);
+}
+
+/* Botones de acción minimalistas y tecnológicos */
+.btn-subir-link-tech {
+  background-color: var(--primary) !important;
+  color: #11141a !important;
+  border: 1px solid var(--primary) !important;
+  padding: 0 18px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
   display: inline-flex;
   align-items: center;
-  transition: all 0.3s ease;
-  height: 42px; /* Altura uniforme */
+  justify-content: center;
+  height: 36px;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
 }
 
 .btn-subir-link-tech:hover {
-  background-color: #37373f; /* Tu color secundario */
-  border-color: #37373f;
+  background-color: transparent !important;
+  color: var(--primary) !important;
+  box-shadow: 0 0 15px rgba(180, 156, 115, 0.35);
   transform: translateY(-2px);
-  box-shadow: 0 4px 10px rgba(246, 185, 30, 0.2);
 }
 
-/* Ajuste al botón de Subir Recurso para que coincida perfectamente */
 .btn-subir-tech {
-  background: transparent;
-  border: 2px dashed #b49c73; /* Borde punteado para indicar subida */
-  color: #b49c73;
-  padding: 8px 18px;
-  border-radius: 8px;
-  font-size: 13px;
-  font-weight: 600;
-  height: 42px;
+  background: transparent !important;
+  border: 1px dashed rgba(180, 156, 115, 0.4) !important;
+  color: var(--primary) !important;
+  padding: 0 18px;
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  height: 36px;
   display: inline-flex;
   align-items: center;
+  justify-content: center;
   transition: all 0.3s ease;
 }
 
 .btn-subir-tech:hover {
-  background: rgba(247, 200, 119, 0.1);
-  border-style: solid;
-  color: #b49c73;
+  border-style: solid !important;
+  border-color: var(--primary) !important;
+  background: rgba(180, 156, 115, 0.08) !important;
+  transform: translateY(-2px);
+}
+/* Media Query Adaptativo para Móviles */
+@media (max-width: 576px) {
+  .card-semana-body {
+    padding: 15px;
+    flex-direction: column;
+  }
+  .card-semana-img {
+    flex: 0 0 auto;
+    width: 100%;
+    margin-right: 0;
+    margin-bottom: 15px;
+  }
+  .file-item-tech {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 12px;
+  }
+  .file-name-text {
+    width: 100%;
+    margin-bottom: 12px;
+    white-space: normal;
+  }
+  .buttons-container {
+    width: 100%;
+    justify-content: flex-end;
+    border-top: 1px solid rgba(255, 255, 255, 0.05);
+    padding-top: 10px;
+  }
 }
 /* Tamaño para computadoras (Pantallas grandes) */
 #accordionSemanas {
-  max-width: 65%;
+  max-width: 75%; /* Ajustado para dar mayor rango y legibilidad a las filas de archivos */
   margin-left: auto;
   margin-right: auto;
+  background: transparent;
+}
+/* CORRECCIÓN DE COLOR EN TÍTULOS: Fuerza a los textos internos a verse blancos y nítidos */
+.card-header-tech .btn-link span,
+.card-header-tech .btn-link .text-dark {
+  color: #ffffff !important; /* Blanco brillante de alta fidelidad */
+  font-family: "Roboto", sans-serif;
+  font-weight: 700 !important;
+  font-size: 1.05rem;
+  letter-spacing: 0.8px;
+  transition: color 0.3s ease;
+}
+@media (max-width: 992px) {
+  #accordionSemanas {
+    max-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+  }
+}
+/* Contenedor principal de cada semana */
+#accordionSemanas .card {
+  background: rgba(22, 27, 36, 0.6) !important;
+  border: 1px solid rgba(180, 156, 115, 0.12) !important;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border-radius: 12px !important;
+  margin-bottom: 16px;
+  overflow: hidden;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
+/* Comportamiento dinámico de la tarjeta de la semana */
+#accordionSemanas .card:hover {
+  border-color: rgba(180, 156, 115, 0.4) !important;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.4),
+    0 0 20px rgba(180, 156, 115, 0.05);
+}
+/* ==========================================================================
+   EFECTOS MODERNOS E INMERSIVOS (PORTAFOLIO DE ARQUITECTURA)
+   ========================================================================== */
+
+/* Desplazamiento fluido en toda la página */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Pantalla de Carga / Preloader de Alto Nivel */
+#preloader {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100vh;
+  background-color: #11141a; /* Fondo oscuro tecnológico de transición */
+  z-index: 999999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition:
+    opacity 0.6s cubic-bezier(0.25, 1, 0.5, 1),
+    visibility 0.6s;
+}
+
+#preloader.fade-out {
+  opacity: 0;
+  visibility: hidden;
+}
+
+.preloader-content {
+  text-align: center;
+  padding: 2rem;
+  max-width: 800px;
+}
+
+.preloader-title {
+  color: #b49c73; /* Tu color primario */
+  font-size: 2.3rem;
+  font-family: "Roboto", sans-serif;
+  font-weight: 700 !important;
+  letter-spacing: 3px;
+  line-height: 1.3;
+  margin-bottom: 10px;
+  text-transform: uppercase;
+  animation: titlePulseGlow 2s infinite alternate ease-in-out;
+}
+
+.preloader-sub {
+  color: #ffffff;
+  opacity: 0.6;
+  font-size: 1rem;
+  letter-spacing: 5px;
+  text-transform: uppercase;
+  margin-bottom: 30px;
+}
+
+/* Barra de progreso de carga estilizada */
+.preloader-bar {
+  width: 240px;
+  height: 4px;
+  background: rgba(255, 255, 255, 0.08);
+  margin: 0 auto;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+  box-shadow: 0 0 15px rgba(180, 156, 115, 0.2);
+}
+
+.preloader-bar span {
+  display: block;
+  height: 100%;
+  width: 0;
+  background: linear-gradient(90deg, #b49c73, #dfcaa7);
+  border-radius: 10px;
+  animation: fillProgress 2.3s ease-in-out forwards;
+}
+
+/* Interacciones Modernas en Elementos de la Web */
+
+/* Efecto hover interactivo sobre tus botones principales */
+.btn-primary {
+  position: relative;
+  overflow: hidden;
+  z-index: 1;
+  transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+  box-shadow: 0 4px 15px rgba(180, 156, 115, 0.2);
+}
+
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(180, 156, 115, 0.4);
+}
+
+/* Tarjeta de Definición de Arquitectura con estética Glassmorphism */
+.container-fluid.py-5 img.img-fluid.rounded {
+  transition:
+    transform 0.5s ease,
+    box-shadow 0.5s ease;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+.container-fluid.py-5 img.img-fluid.rounded:hover {
+  transform: scale(1.03) translateY(-5px);
+  box-shadow: 0 20px 40px rgba(180, 156, 115, 0.25);
+}
+
+/* Efecto dinámico de Zoom sobre el Carrusel Principal */
+.carousel-item img {
+  transition: transform 6s ease-out;
+}
+.carousel-item.active img {
+  transform: scale(1.07);
+}
+
+/* ==========================================================================
+   ANIMACIONES (KEYFRAMES)
+   ========================================================================== */
+@keyframes titlePulseGlow {
+  0% {
+    text-shadow: 0 0 10px rgba(180, 156, 115, 0.3);
+    transform: scale(0.99);
+  }
+  100% {
+    text-shadow:
+      0 0 25px rgba(180, 156, 115, 0.8),
+      0 0 40px rgba(180, 156, 115, 0.4);
+    transform: scale(1.01);
+  }
+}
+
+@keyframes fillProgress {
+  0% {
+    width: 0%;
+  }
+  70% {
+    width: 65%;
+  }
+  100% {
+    width: 100%;
+  }
+}
 /* Tamaño para celulares (Pantallas menores a 768px) */
 @media (max-width: 768px) {
   #accordionSemanas {
@@ -96,29 +377,70 @@
   }
 }
 
-/* Estilo para que el nombre de la semana sea visible siempre */
+/* Encabezado de la semana (Adiós bloque blanco plano) */
 .card-header-tech {
-  background: #fff !important; /* Un gris muy claro para que resalte del fondo blanco */
-  border-bottom: 2px solid #b49c73 !important; /* Una línea azul abajo para darle estilo */
-  padding: 10px !important;
+  background: linear-gradient(
+    90deg,
+    rgba(30, 37, 50, 0.85),
+    rgba(21, 26, 35, 0.4)
+  ) !important;
+  border-bottom: 1px solid rgba(180, 156, 115, 0.1) !important;
+  padding: 20px 25px !important;
+  cursor: pointer;
+  position: relative;
+}
+/* Indicador de barra lateral simulando terminal de ingeniería */
+.card-header-tech::before {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 4px;
+  background: var(--primary);
+  opacity: 0.5;
+  transition:
+    opacity 0.3s ease,
+    box-shadow 0.3s ease;
+}
+.card-header-tech:hover::before {
+  opacity: 1;
+  box-shadow: 0 0 12px var(--primary);
 }
 
-/* Estilo del botón del encabezado */
+/* Enlace interno del título del colapsable */
 .card-header-tech .btn-link {
-  color: #37373f !important; /* Color gris oscuro/negro para el texto */
+  color: var(--text-light) !important;
+  font-family: "Roboto", sans-serif;
+  font-weight: 600 !important;
   font-size: 1.1rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
   text-decoration: none !important;
   width: 100%;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  padding: 0;
+}
+.card-header-tech .btn-link:hover {
+  color: var(--primary) !important;
 }
 
-/* Cambiar el color de la flecha para que se vea */
+/* Flechas indicadoras de colapso */
 .card-header-tech i.fa-chevron-down {
-  color: #b49c73 !important;
-  font-size: 1.2rem;
+  color: var(--primary) !important;
+  font-size: 0.95rem;
+  transition:
+    transform 0.4s cubic-bezier(0.25, 1, 0.5, 1),
+    text-shadow 0.3s ease;
 }
+/* Rotación inteligente de la flecha cuando el acordeón se activa */
+.card-header-tech .btn-link[aria-expanded="true"] i.fa-chevron-down {
+  transform: rotate(180deg);
+  text-shadow: 0 0 10px var(--primary);
+}
+
 /* Card Estilo Imagen 2 */
 .card-semana-tech {
   background: rgba(22, 27, 34, 0.8);
@@ -134,27 +456,48 @@
   box-shadow: 0 0 20px rgba(0, 123, 255, 0.2);
 }
 
-/* Cuerpo de la card responsivo */
+/* Bloque contenedor del contenido interno de la semana */
 .card-semana-body {
+  padding: 25px;
   display: flex;
-  flex-wrap: wrap; /* Para que en móvil se apile */
+  flex-wrap: wrap;
   align-items: flex-start;
+  background: rgba(13, 15, 18, 0.4);
 }
 
+/* Sección de la previsualización/imagen de la arquitectura */
 .card-semana-img {
-  flex: 0 0 130px;
-  margin-right: 20px;
+  flex: 0 0 140px;
+  margin-right: 25px;
 }
 
 .card-semana-img img {
   width: 100%;
-  border-radius: 12px;
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+  border-radius: 8px;
+  border: 1px solid rgba(180, 156, 115, 0.15);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.5);
+  transition:
+    transform 0.3s ease,
+    border-color 0.3s ease;
 }
 
+.card-semana-img:hover img {
+  transform: scale(1.04);
+  border-color: var(--primary);
+}
+
+/* Información del título de la sesión */
 .card-semana-info {
   flex: 1;
-  min-width: 200px; /* Evita que se vea muy pequeño en móvil */
+  min-width: 260px;
+}
+
+.card-semana-info h5 {
+  font-size: 1.2rem;
+  margin-bottom: 18px;
+  color: var(--primary) !important;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
 }
 
 /* Lista de archivos (Diseño de la foto 2) */
@@ -257,31 +600,56 @@ section {
   background: #333;
   border-radius: 10px;
 }
-/* Contenedor principal corregido */
+/* Contenedores de archivos y entregables individuales */
 .file-item-tech {
-  background: #37373f !important; /* Fondo oscuro elegante */
-  border: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(30, 37, 50, 0.5) !important;
+  border: 1px solid rgba(255, 255, 255, 0.03);
   border-radius: 8px;
-  padding: 12px;
-  margin-bottom: 10px;
+  padding: 14px 20px;
+  margin-bottom: 12px;
   display: flex;
-  flex-direction: row; /* Por defecto en línea */
+  flex-direction: row;
   align-items: center;
   justify-content: space-between;
   width: 100%;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.file-item-tech:hover {
+  background: rgba(180, 156, 115, 0.05) !important;
+  border-color: rgba(180, 156, 115, 0.25);
+  transform: translateX(4px);
+}
+
+/* Colores condicionales según íconos de arquitectura o documentos */
+.file-item-tech i.fa-file-pdf {
+  color: #ef596f;
+  font-size: 1.15rem;
+  margin-right: 12px;
+}
+.file-item-tech i.fa-file-word {
+  color: #61afef;
+  font-size: 1.15rem;
+  margin-right: 12px;
+}
+.file-item-tech i.fa-code {
+  color: #4ae3b5;
+  font-size: 1.15rem;
+  margin-right: 12px;
 }
 
 /* Nombre del archivo responsivo */
 .file-name-text {
-  color: #ffffff !important;
-  font-size: 0.85rem;
+  color: rgba(255, 255, 255, 0.85) !important;
+  font-size: 0.9rem;
   font-weight: 500;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
-  margin-right: 10px;
-  flex-grow: 1; /* Toma todo el espacio disponible */
+  margin-right: 15px;
+  flex-grow: 1;
 }
+
 /* AJUSTES PARA CELULARES (Pantallas menores a 576px) */
 @media (max-width: 576px) {
   .file-item-tech {
@@ -296,29 +664,111 @@ section {
     text-overflow: clip;
   }
 
+  /* Ajuste del bloque operativo de botones */
   .buttons-container {
-    width: 100%;
     display: flex;
-    justify-content: flex-end; /* Botones a la derecha */
-    border-top: 1px solid rgba(255, 255, 255, 0.1);
-    padding-top: 8px;
+    gap: 10px;
+    align-items: center;
   }
 }
 /* Ajuste para los iconos */
 .file-item-tech i {
   font-size: 1.1rem;
 }
+
 body {
-  margin: 0;
-  font-family: "Montserrat", sans-serif;
-  font-size: 1rem;
-  font-weight: 400;
-  line-height: 1.5;
-  color: #757575;
-  text-align: left;
-  background-color: #ffffff;
+  background-color: #0d0f12; /* Cambiamos a un modo oscuro profundo muy elegante */
+  color: #b0b5c0 !important;
+  /* Creación de cuadrícula con degradados lineales */
+  background-image:
+    linear-gradient(rgba(180, 156, 115, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(180, 156, 115, 0.03) 1px, transparent 1px);
+  background-size: 40px 40px; /* Tamaño del cuadro */
+  background-position: center;
+}
+.card,
+.card-semana-tech {
+  background: rgba(30, 35, 45, 0.6) !important;
+  border: 1px solid rgba(180, 156, 115, 0.1) !important;
+  backdrop-filter: blur(12px); /* Efecto cristal esmerilado */
+  position: relative;
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
+.card:hover,
+.card-semana-tech:hover {
+  transform: translateY(-5px);
+  border-color: rgba(180, 156, 115, 0.6) !important;
+  /* Sutil resplandor dorado */
+  box-shadow: 0 10px 30px rgba(180, 156, 115, 0.15);
+}
+/* Ocultar cursor original solo en pantallas grandes (no afecta a móviles) */
+@media (min-width: 992px) {
+  body {
+    cursor: none;
+  }
+  a,
+  button,
+  .btn {
+    cursor: none;
+  }
+
+  #custom-cursor {
+    width: 8px;
+    height: 8px;
+    background: #b49c73;
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999999;
+    transition:
+      width 0.2s,
+      height 0.2s,
+      background-color 0.2s;
+  }
+
+  #custom-cursor-blur {
+    width: 40px;
+    height: 40px;
+    border: 1px solid rgba(180, 156, 115, 0.4);
+    border-radius: 50%;
+    position: fixed;
+    transform: translate(-50%, -50%);
+    pointer-events: none;
+    z-index: 9999998;
+    /* Suavizado para que siga al punto con un ligero retraso inmersivo */
+    transition:
+      transform 0.08s ease-out,
+      width 0.2s,
+      height 0.2s;
+  }
+
+  /* Cuando el cursor entra a un botón o enlace */
+  body.cursor-hover #custom-cursor {
+    width: 24px;
+    height: 24px;
+    background: rgba(180, 156, 115, 0.2);
+  }
+  body.cursor-hover #custom-cursor-blur {
+    width: 50px;
+    height: 50px;
+    border-color: rgba(180, 156, 115, 0.8);
+  }
+}
+/* Ajuste para que los textos oscuros de Bootstrap no se pierdan */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+.text-dark {
+  color: #ffffff !important;
+}
 [tabindex="-1"]:focus:not(:focus-visible) {
   outline: 0 !important;
 }
@@ -4644,6 +5094,212 @@ input[type="button"].btn-block {
 .tab-content > .active {
   display: block;
 }
+/* ==========================================================================
+   REFACTORIZACIÓN INTEGRAL DEL MENÚ DE NAVEGACIÓN
+   ========================================================================== */
+
+/* ==========================================================================
+   REFACTORIZACIÓN DE CABECERA Y BARRA DE NAVEGACIÓN (GLASSMORPHISM COMPLETO)
+   ========================================================================== */
+
+/* Unifica la columna del logo (Izquierda) con el cristal oscuro de la derecha */
+.container-fluid .bg-secondary.d-none.d-lg-block {
+  background-color: rgba(
+    21,
+    26,
+    35,
+    0.85
+  ) !important; /* Mismo fondo de cristal */
+  border-right: 1px solid rgba(180, 156, 115, 0.15) !important;
+  border-bottom: 1px solid rgba(180, 156, 115, 0.15) !important;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.4s ease;
+}
+
+/* Evita que el contenedor del logo opaque el diseño al hacer hover en la columna */
+.container-fluid .bg-secondary.d-none.d-lg-block:hover {
+  background-color: rgba(30, 37, 50, 0.9) !important;
+}
+
+/* --- EFECTO INTERACTIVO Y DINÁMICO PARA EL LOGO --- */
+.container-fluid .bg-secondary img {
+  transition: all 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  filter: drop-shadow(0 0 8px rgba(180, 156, 115, 0.15));
+  animation: logoLevitate 4s infinite ease-in-out; /* Efecto flotante constante */
+}
+
+/* Al pasar el cursor sobre el bloque del logo, este se ilumina y reacciona */
+.container-fluid .bg-secondary.d-none.d-lg-block:hover img {
+  transform: scale(1.06) translateY(-2px);
+  filter: drop-shadow(0 0 20px rgba(180, 156, 115, 0.65)) brightness(1.15);
+}
+
+/* Animación de levitación sutil para el logo (simula carga de interfaz cyber) */
+@keyframes logoLevitate {
+  0% {
+    transform: translateY(0px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 5px rgba(180, 156, 115, 0.1));
+  }
+  50% {
+    transform: translateY(-4px);
+    filter: drop-shadow(0 8px 16px rgba(0, 0, 0, 0.5))
+      drop-shadow(0 0 15px rgba(180, 156, 115, 0.35));
+  }
+  100% {
+    transform: translateY(0px);
+    filter: drop-shadow(0 4px 8px rgba(0, 0, 0, 0.3))
+      drop-shadow(0 0 5px rgba(180, 156, 115, 0.1));
+  }
+}
+
+/* Fondo de las filas de la derecha (Contacto y Menú) */
+.bg-white {
+  background-color: rgba(21, 26, 35, 0.85) !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.border-bottom {
+  border-bottom: 1px solid rgba(180, 156, 115, 0.15) !important;
+}
+
+.col-lg-7 small {
+  color: #e2e8f0 !important;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.navbar {
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0.5rem 1rem;
+}
+
+.navbar-brand {
+  display: inline-block;
+  padding-top: 0.3125rem;
+  padding-bottom: 0.3125rem;
+  margin-right: 1rem;
+  font-size: 1.25rem;
+  line-height: inherit;
+  white-space: nowrap;
+}
+
+.navbar-nav {
+  display: flex;
+  flex-direction: column;
+  padding-left: 0;
+  margin-bottom: 0;
+  list-style: none;
+}
+
+.navbar-collapse {
+  flex-basis: 100%;
+  flex-grow: 1;
+  align-items: center;
+}
+
+.navbar-toggler {
+  padding: 0.25rem 0.75rem;
+  font-size: 1.25rem;
+  line-height: 1;
+  background-color: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 5px;
+}
+
+.navbar-toggler-icon {
+  display: inline-block;
+  width: 1.5em;
+  height: 1.5em;
+  vertical-align: middle;
+  background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' width='30' height='30' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 0.75%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+}
+
+@media (min-width: 992px) {
+  .navbar-expand-lg {
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+  }
+  .navbar-expand-lg .navbar-nav {
+    flex-direction: row;
+  }
+  .navbar-expand-lg .navbar-nav .nav-link {
+    padding-right: 0.5rem;
+    padding-left: 0.5rem;
+  }
+  .navbar-expand-lg .navbar-collapse {
+    display: flex !important;
+    flex-basis: auto;
+  }
+  .navbar-expand-lg .navbar-toggler {
+    display: none;
+  }
+}
+
+.navbar-light .navbar-nav .nav-link {
+  padding: 28px 20px !important;
+  color: rgba(255, 255, 255, 0.75) !important;
+  font-size: 17px;
+  font-weight: 600;
+  font-family: "Roboto", sans-serif;
+  letter-spacing: 0.8px;
+  position: relative;
+  outline: none;
+  transition: color 0.3s ease;
+}
+
+.navbar-light .navbar-nav .nav-link::after {
+  content: "";
+  position: absolute;
+  bottom: 18px;
+  left: 20px;
+  width: 0;
+  height: 2px;
+  background: var(--primary);
+  transition: width 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+}
+
+.navbar-light .navbar-nav .nav-link:hover::after,
+.navbar-light .navbar-nav .nav-link.active::after {
+  width: calc(100% - 40px);
+}
+
+.navbar-light .navbar-nav .nav-link:hover,
+.navbar-light .navbar-nav .nav-link.active {
+  color: var(--primary) !important;
+  text-shadow: 0 0 10px rgba(180, 156, 115, 0.4);
+}
+
+.navbar-text.text-dark {
+  color: var(--text-light) !important;
+  font-size: 0.95rem;
+  letter-spacing: 0.5px;
+  border-left: 2px solid rgba(180, 156, 115, 0.3);
+  padding-left: 15px;
+}
+
+.navbar .btn-primary {
+  background: transparent !important;
+  border: 1px solid var(--primary) !important;
+  color: var(--primary) !important;
+  font-weight: 600;
+  letter-spacing: 1px;
+  border-radius: 6px;
+}
+
+.navbar .btn-primary:hover {
+  background: #b49c73 !important;
+  color: #11141a !important;
+  box-shadow: 0 0 15px rgba(180, 156, 115, 0.4);
+  transform: translateY(-2px);
+}
 
 .navbar {
   position: relative;
@@ -7036,10 +7692,6 @@ button.bg-primary:focus {
   background-color: #9f8455 !important;
 }
 
-.bg-secondary {
-  background-color: #37373f !important;
-}
-
 a.bg-secondary:hover,
 a.bg-secondary:focus,
 button.bg-secondary:hover,
@@ -7113,10 +7765,6 @@ button.bg-dark:focus {
   background-color: #1d2124 !important;
 }
 
-.bg-white {
-  background-color: #fff !important;
-}
-
 .bg-transparent {
   background-color: transparent !important;
 }
@@ -7131,10 +7779,6 @@ button.bg-dark:focus {
 
 .border-right {
   border-right: 1px solid #dee2e6 !important;
-}
-
-.border-bottom {
-  border-bottom: 1px solid #dee2e6 !important;
 }
 
 .border-left {

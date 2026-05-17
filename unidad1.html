@@ -35,6 +35,17 @@
   </head>
 
   <body data-unidad="unidad1">
+    <div id="preloader">
+      <div class="preloader-content">
+        <h1 class="preloader-title">
+          BIENVENIDOS A LA UNIDAD I: FUNDAMENTOS DE ARQUITECTURA DE SOFTWARE
+        </h1>
+        <div class="preloader-sub">UPLA • Sistemas</div>
+        <div class="preloader-bar"><span></span></div>
+      </div>
+    </div>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-blur"></div>
     <!-- Header Start -->
     <div class="container-fluid">
       <div class="row">
@@ -152,16 +163,17 @@
           class="d-flex flex-column align-items-center justify-content-center"
           style="min-height: 400px"
         >
-          <h3 class="display-3 text-white text-uppercase">UNIDAD I: </h3>
+          <h3 class="display-3 text-white text-uppercase">UNIDAD I:</h3>
           <h4 class="display-3 text-white text-uppercase">FUNDAMENTOS DE</h4>
-          <h4 class="display-3 text-white text-uppercase">ARQUITECTURA DE SOFTWARE</h4>
+          <h4 class="display-3 text-white text-uppercase">
+            ARQUITECTURA DE SOFTWARE
+          </h4>
           <div class="d-inline-flex text-white">
             <p class="m-0 text-uppercase">
               <a class="text-white" href="index.html">INICIO</a>
             </p>
             <i class="fa fa-angle-double-right pt-1 px-3"></i>
             <p class="m-0 text-uppercase">UNIDAD I</p>
-             
           </div>
         </div>
       </div>
@@ -169,7 +181,7 @@
     <!-- Page Header End -->
 
     <!-- SEMANAS Start-->
-    <div class="container-fluid py-5 >
+    <div class="container-fluid py-5">
       <div class="container py-5">
         <div class="accordion" id="accordionSemanas">
           <div class="card card-tech mb-3">
@@ -182,7 +194,9 @@
                   data-target="#collapseOne"
                   aria-expanded="true"
                 >
-                  <span class="font-weight-bold text-dark text-uppercase">Semana 1: CONCEPTO DE ARQUITECTURA DE SOFTWARE</span>
+                  <span class="font-weight-bold text-dark text-uppercase"
+                    >Semana 1: CONCEPTO DE ARQUITECTURA DE SOFTWARE</span
+                  >
                   <i
                     class="fa fa-chevron-down text-primary transition-icon"
                   ></i>
@@ -234,8 +248,10 @@
                   data-toggle="collapse"
                   data-target="#collapseTwo"
                 >
-                  <span class="font-weight-bold text-dark text-uppercase">Semana 2: ESTÁNDARES INTERNACIONALES</span>
-                  
+                  <span class="font-weight-bold text-dark text-uppercase"
+                    >Semana 2: ESTÁNDARES INTERNACIONALES</span
+                  >
+
                   <i
                     class="fa fa-chevron-down text-primary transition-icon"
                   ></i>
@@ -286,8 +302,10 @@
                   data-toggle="collapse"
                   data-target="#collapseThree"
                 >
-                  <span class="font-weight-bold text-dark text-uppercase">Semana 3: DISEÑO ARQUITECTÓNICO</span>
-                  
+                  <span class="font-weight-bold text-dark text-uppercase"
+                    >Semana 3: DISEÑO ARQUITECTÓNICO</span
+                  >
+
                   <i
                     class="fa fa-chevron-down text-primary transition-icon"
                   ></i>
@@ -329,7 +347,7 @@
             </div>
           </div>
 
-         <div class="card card-tech mb-3">
+          <div class="card card-tech mb-3">
             <div class="card-header-tech" id="headingFour">
               <h2 class="mb-0">
                 <button
@@ -338,8 +356,10 @@
                   data-toggle="collapse"
                   data-target="#collapseFour"
                 >
-                  <span class="font-weight-bold text-dark text-uppercase">Semana 4: CRITERIOS DE CALIDAD</span>
-                  
+                  <span class="font-weight-bold text-dark text-uppercase"
+                    >Semana 4: CRITERIOS DE CALIDAD</span
+                  >
+
                   <i
                     class="fa fa-chevron-down text-primary transition-icon"
                   ></i>
@@ -366,20 +386,28 @@
                       class="archivos-container-tech"
                     ></div>
                     <div class="admin-only mt-3">
-                            <!-- Contenedor flexible para alinear botones -->
-                        <div class="d-flex flex-wrap align-items-center" style="gap: 10px;">
-        
+                      <!-- Contenedor flexible para alinear botones -->
+                      <div
+                        class="d-flex flex-wrap align-items-center"
+                        style="gap: 10px"
+                      >
                         <!-- Botón de Subir Link (ahora con estilo coherente) -->
-                        <button class="btn-subir-link-tech" onclick="subirEnlace(4)">
-                        <i class="fa fa-link mr-2"></i> Subir Link
+                        <button
+                          class="btn-subir-link-tech"
+                          onclick="subirEnlace(4)"
+                        >
+                          <i class="fa fa-link mr-2"></i> Subir Link
                         </button>
 
                         <!-- Botón de Subir Archivo (ya lo tenías) -->
                         <label class="btn-subir-tech m-0">
-                        <i class="fa fa-plus mr-2"></i> Subir Recurso
-                        <input type="file" hidden onchange="subirArchivo(this, 4)" />
+                          <i class="fa fa-plus mr-2"></i> Subir Recurso
+                          <input
+                            type="file"
+                            hidden
+                            onchange="subirArchivo(this, 4)"
+                          />
                         </label>
-        
                       </div>
                     </div>
                   </div>
@@ -387,7 +415,6 @@
               </div>
             </div>
           </div>
-
         </div>
       </div>
     </div>
@@ -480,38 +507,157 @@
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/auth.js"></script>
 
-    <div class="modal fade" id="pdfModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
+    <div
+      class="modal fade"
+      id="pdfModal"
+      tabindex="-1"
+      role="dialog"
+      aria-hidden="true"
+    >
+      <div class="modal-dialog modal-xl modal-dialog-centered" role="document">
         <div class="modal-content bg-dark border-secondary">
-            <div class="modal-header border-secondary">
-                <h5 class="modal-title text-white small" id="pdfNombre">Visualizador de Documento</h5>
-                <button type="button" class="close text-white" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                </button>
-            </div>
-            <div class="modal-body p-0" style="height: 80vh; overflow: hidden; position: relative;">
-                
-                <div id="imageContainer" class="d-none w-100 h-100" style="overflow: auto; background: #000;">
-                    <img id="pdfImage" src="" style="transition: transform 0.2s; cursor: zoom-in; display: block; margin: auto;">
-                    
-                    <div class="zoom-controls" style="position: absolute; bottom: 20px; right: 20px; z-index: 10;">
-                        <button onclick="zoomImg(1.2)" class="btn btn-primary rounded-circle shadow-lg" title="Aumentar">
-                            <i class="fa fa-search-plus"></i>
-                        </button>
-                        <button onclick="zoomImg(0.8)" class="btn btn-primary rounded-circle shadow-lg ml-2" title="Disminuir">
-                            <i class="fa fa-search-minus"></i>
-                        </button>
-                        <button onclick="resetZoom()" class="btn btn-secondary rounded-circle shadow-lg ml-2" title="Restaurar">
-                            <i class="fa fa-sync-alt"></i>
-                        </button>
-                    </div>
-                </div>
+          <div class="modal-header border-secondary">
+            <h5 class="modal-title text-white small" id="pdfNombre">
+              Visualizador de Documento
+            </h5>
+            <button
+              type="button"
+              class="close text-white"
+              data-dismiss="modal"
+              aria-label="Close"
+            >
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div
+            class="modal-body p-0"
+            style="height: 80vh; overflow: hidden; position: relative"
+          >
+            <div
+              id="imageContainer"
+              class="d-none w-100 h-100"
+              style="overflow: auto; background: #000"
+            >
+              <img
+                id="pdfImage"
+                src=""
+                style="
+                  transition: transform 0.2s;
+                  cursor: zoom-in;
+                  display: block;
+                  margin: auto;
+                "
+              />
 
-                <iframe id="pdfFrame" class="d-none" src="" width="100%" height="100%" frameborder="0"></iframe>
+              <div
+                class="zoom-controls"
+                style="
+                  position: absolute;
+                  bottom: 20px;
+                  right: 20px;
+                  z-index: 10;
+                "
+              >
+                <button
+                  onclick="zoomImg(1.2)"
+                  class="btn btn-primary rounded-circle shadow-lg"
+                  title="Aumentar"
+                >
+                  <i class="fa fa-search-plus"></i>
+                </button>
+                <button
+                  onclick="zoomImg(0.8)"
+                  class="btn btn-primary rounded-circle shadow-lg ml-2"
+                  title="Disminuir"
+                >
+                  <i class="fa fa-search-minus"></i>
+                </button>
+                <button
+                  onclick="resetZoom()"
+                  class="btn btn-secondary rounded-circle shadow-lg ml-2"
+                  title="Restaurar"
+                >
+                  <i class="fa fa-sync-alt"></i>
+                </button>
+              </div>
             </div>
+
+            <iframe
+              id="pdfFrame"
+              class="d-none"
+              src=""
+              width="100%"
+              height="100%"
+              frameborder="0"
+            ></iframe>
+          </div>
         </div>
       </div>
     </div>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const preloader = document.getElementById("preloader");
 
+        // Espera 2.5 segundos para mostrar el título completo antes de dar paso al index
+        setTimeout(() => {
+          preloader.classList.add("fade-out");
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 600); // Sincronizado con la duración de la transición CSS
+        }, 2500);
+      });
+    </script>
+    <script>
+      const scrambleText = (element) => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+        const originalText = element.dataset.value || element.innerText;
+        element.dataset.value = originalText; // Guarda el valor original
+
+        let iteration = 0;
+        clearInterval(element.interval);
+
+        element.interval = setInterval(() => {
+          element.innerText = originalText
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) return originalText[index];
+              if (letter === " ") return " ";
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("");
+
+          if (iteration >= originalText.length) clearInterval(element.interval);
+          iteration += 1 / 3;
+        }, 30);
+      };
+
+      // Aplicar a los títulos al pasar el mouse
+      document.querySelectorAll(".display-2, .mb-4").forEach((title) => {
+        title.style.cursor = "default";
+        title.addEventListener("mouseenter", () => scrambleText(title));
+      });
+    </script>
+    <script>
+      const cursor = document.getElementById("custom-cursor");
+      const cursorBlur = document.getElementById("custom-cursor-blur");
+
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+
+        cursorBlur.style.left = e.clientX + "px";
+        cursorBlur.style.top = e.clientY + "px";
+      });
+
+      // Detectar hovers en elementos interactivos
+      document.querySelectorAll("a, button, .btn").forEach((el) => {
+        el.addEventListener("mouseenter", () =>
+          document.body.classList.add("cursor-hover"),
+        );
+        el.addEventListener("mouseleave", () =>
+          document.body.classList.remove("cursor-hover"),
+        );
+      });
+    </script>
   </body>
 </html>

@@ -16,7 +16,10 @@
       href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&family=Roboto:wght@300;500;700&display=swap"
       rel="stylesheet"
     />
-
+    <link
+      rel="stylesheet"
+      href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+    />
     <!-- Font Awesome -->
     <link
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css"
@@ -35,6 +38,17 @@
   </head>
 
   <body>
+    <div id="preloader">
+      <div class="preloader-content">
+        <h1 class="preloader-title">
+          MI PORTAFOLIO DE ARQUITECTURA DE SOFTWARE
+        </h1>
+        <div class="preloader-sub">UPLA • Sistemas</div>
+        <div class="preloader-bar"><span></span></div>
+      </div>
+    </div>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-blur"></div>
     <!-- Header Start -->
     <div class="container-fluid">
       <div class="row">
@@ -338,5 +352,70 @@
     <script src="js/main.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="js/auth.js"></script>
+    <script>
+      window.addEventListener("DOMContentLoaded", () => {
+        const preloader = document.getElementById("preloader");
+
+        // Espera 2.5 segundos para mostrar el título completo antes de dar paso al index
+        setTimeout(() => {
+          preloader.classList.add("fade-out");
+          setTimeout(() => {
+            preloader.style.display = "none";
+          }, 600); // Sincronizado con la duración de la transición CSS
+        }, 2500);
+      });
+    </script>
+    <script>
+      const scrambleText = (element) => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*";
+        const originalText = element.dataset.value || element.innerText;
+        element.dataset.value = originalText; // Guarda el valor original
+
+        let iteration = 0;
+        clearInterval(element.interval);
+
+        element.interval = setInterval(() => {
+          element.innerText = originalText
+            .split("")
+            .map((letter, index) => {
+              if (index < iteration) return originalText[index];
+              if (letter === " ") return " ";
+              return chars[Math.floor(Math.random() * chars.length)];
+            })
+            .join("");
+
+          if (iteration >= originalText.length) clearInterval(element.interval);
+          iteration += 1 / 3;
+        }, 30);
+      };
+
+      // Aplicar a los títulos al pasar el mouse
+      document.querySelectorAll(".display-2, .mb-4").forEach((title) => {
+        title.style.cursor = "default";
+        title.addEventListener("mouseenter", () => scrambleText(title));
+      });
+    </script>
+    <script>
+      const cursor = document.getElementById("custom-cursor");
+      const cursorBlur = document.getElementById("custom-cursor-blur");
+
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+
+        cursorBlur.style.left = e.clientX + "px";
+        cursorBlur.style.top = e.clientY + "px";
+      });
+
+      // Detectar hovers en elementos interactivos
+      document.querySelectorAll("a, button, .btn").forEach((el) => {
+        el.addEventListener("mouseenter", () =>
+          document.body.classList.add("cursor-hover"),
+        );
+        el.addEventListener("mouseleave", () =>
+          document.body.classList.remove("cursor-hover"),
+        );
+      });
+    </script>
   </body>
 </html>
