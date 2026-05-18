@@ -333,7 +333,195 @@
     <a href="#" class="btn btn-primary px-3 back-to-top"
       ><i class="fa fa-angle-double-up"></i
     ></a>
+    <button
+      id="chatbot-launcher"
+      onclick="toggleChatbot()"
+      title="Asistente de Arquitectura"
+    >
+      <i class="fa fa-comments"></i>
+    </button>
 
+    <div id="chatbot-window">
+      <div class="chatbot-header">
+        <h5>SYS - ARCHITECT BOT</h5>
+        <button class="chatbot-close-btn" onclick="toggleChatbot()">
+          <i class="fa fa-times"></i>
+        </button>
+      </div>
+      <div class="chatbot-body" id="chatbot-chatlog">
+        <div class="chat-msg bot">
+          ¡Hola, Alfonso Gabriel! Soy tu asistente de arquitectura de software.
+          ¿Qué unidad o entregable deseas consultar el día de hoy?
+          <button class="chat-opt-btn" onclick="sendPredefined('Unidad 1')">
+            📁 Ver Unidad I (Fundamentos)
+          </button>
+          <button class="chat-opt-btn" onclick="sendPredefined('Unidad 2')">
+            📁 Ver Unidad II (Patrones)
+          </button>
+          <button class="chat-opt-btn" onclick="sendPredefined('Unidad 3')">
+            📁 Ver Unidad III (Estilos)
+          </button>
+          <button class="chat-opt-btn" onclick="sendPredefined('Unidad 4')">
+            📁 Ver Unidad IV (Evaluación)
+          </button>
+        </div>
+      </div>
+      <div class="chatbot-footer">
+        <div class="chatbot-input-group">
+          <input
+            type="text"
+            id="chatbot-input-field"
+            class="chatbot-input"
+            placeholder="Escribe aquí... (ej. unidad 2)"
+            onkeypress="handleChatKeyPress(event)"
+          />
+          <button class="chatbot-send-btn" onclick="sendUserMessage()">
+            <i class="fa fa-paper-plane"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+    <script>
+      // Control de apertura/cierre de la consola de chat
+      function toggleChatbot() {
+        document.getElementById("chatbot-window").classList.toggle("active");
+      }
+
+      // Permite enviar presionando la tecla ENTER
+      function handleChatKeyPress(event) {
+        if (event.key === "Enter") {
+          sendUserMessage();
+        }
+      }
+
+      // Atajo para las opciones clicables
+      function sendPredefined(text) {
+        document.getElementById("chatbot-input-field").value = text;
+        sendUserMessage();
+      }
+
+      // Procesamiento y renderizado de mensajes
+      function sendUserMessage() {
+        const inputElement = document.getElementById("chatbot-input-field");
+        const msgText = inputElement.value.trim();
+        if (!msgText) return;
+
+        const chatlog = document.getElementById("chatbot-chatlog");
+
+        // 1. Inyectar mensaje del Usuario
+        const userBubble = document.createElement("div");
+        userBubble.className = "chat-msg user";
+        userBubble.innerText = msgText;
+        chatlog.appendChild(userBubble);
+
+        inputElement.value = ""; // Limpiar caja de texto
+        chatlog.scrollTop = chatlog.scrollHeight; // Auto-scroll
+
+        // Simular retraso de procesamiento de datos ("pensando")
+        setTimeout(() => {
+          processBotResponse(msgText, chatlog);
+        }, 500);
+      }
+
+      // Motor Core de Respuestas (Algoritmo de reglas por palabras clave)
+      function processBotResponse(query, chatlog) {
+        const botBubble = document.createElement("div");
+        botBubble.className = "chat-msg bot";
+
+        // Normalización de texto básica (Minúsculas y eliminación de acentos comunes)
+        const cleanQuery = query
+          .toLowerCase()
+          .normalize("NFD")
+          .replace(/[\u0300-\u036f]/g, "");
+
+        let responseHTML = "";
+
+        if (
+          cleanQuery.includes("unidad 1") ||
+          cleanQuery.includes("unidad i")
+        ) {
+          responseHTML = `
+        <strong>UNIDAD I: Fundamentos de Arquitectura</strong><br>
+        Esta sección abarca de la Semana 1 a la 4. Aquí encontrarás las bases metodológicas.<br><br>
+        <a href="unidad1.html" class="btn-subir-link-tech py-1 px-2 d-inline-block text-center mt-1" style="height:auto; font-size:11px;">Abrir Unidad 1</a>
+      `;
+        } else if (
+          cleanQuery.includes("unidad 2") ||
+          cleanQuery.includes("unidad ii")
+        ) {
+          responseHTML = `
+        <strong>UNIDAD II: Atributos de Calidad y Patrones</strong><br>
+        Estructura de las Semanas 5, 6, 7 y 8. Contiene diagramas estructurales importantes.<br><br>
+        <a href="unidad2.html" class="btn-subir-link-tech py-1 px-2 d-inline-block text-center mt-1" style="height:auto; font-size:11px;">Abrir Unidad 2</a>
+      `;
+        } else if (
+          cleanQuery.includes("unidad 3") ||
+          cleanQuery.includes("unidad iii")
+        ) {
+          responseHTML = `
+        <strong>UNIDAD III: Estilos y Tácticas Arquitectónicas</strong><br>
+        Explora las Semanas 9 a la 12 sobre decisiones tácticas y diseño avanzado.<br><br>
+        <a href="unidad3.html" class="btn-subir-link-tech py-1 px-2 d-inline-block text-center mt-1" style="height:auto; font-size:11px;">Abrir Unidad 3</a>
+      `;
+        } else if (
+          cleanQuery.includes("unidad 4") ||
+          cleanQuery.includes("unidad iv")
+        ) {
+          responseHTML = `
+        <strong>UNIDAD IV: Documentación y Evaluación</strong><br>
+        Semanas 13 a la 16. Cierre del ciclo con vistas arquitectónicas completas.<br><br>
+        <a href="unidad4.html" class="btn-subir-link-tech py-1 px-2 d-inline-block text-center mt-1" style="height:auto; font-size:11px;">Abrir Unidad 4</a>
+      `;
+        } else if (
+          cleanQuery.includes("login") ||
+          cleanQuery.includes("sesion") ||
+          cleanQuery.includes("admin")
+        ) {
+          responseHTML = `
+        <strong>Módulo de Autenticación de Supabase</strong><br>
+        Para gestionar los recursos dinámicos necesitas iniciar sesión.<br><br>
+        <a href="login.html" class="btn-subir-link-tech py-1 px-2 d-inline-block text-center mt-1" style="height:auto; font-size:11px;">Ir al Login</a>
+      `;
+        } else if (
+          cleanQuery.includes("hola") ||
+          cleanQuery.includes("ayuda") ||
+          cleanQuery.includes("opciones")
+        ) {
+          responseHTML = `
+        Entendido, aquí tienes los accesos directos del sistema. Selecciona lo que deseas analizar:
+        <button class="chat-opt-btn" onclick="sendPredefined('Unidad 1')">📁 Abrir Unidad I</button>
+        <button class="chat-opt-btn" onclick="sendPredefined('Unidad 2')">📁 Abrir Unidad II</button>
+        <button class="chat-opt-btn" onclick="sendPredefined('Unidad 3')">📁 Abrir Unidad III</button>
+        <button class="chat-opt-btn" onclick="sendPredefined('Unidad 4')">📁 Abrir Unidad IV</button>
+      `;
+        } else {
+          // Fallback inteligente cuando no coincide el término exacto
+          responseHTML = `
+        No logré decodificar el comando exacto. Prueba escribiendo algo como <strong>"unidad 2"</strong>, <strong>"login"</strong> o presiona uno de mis accesos rápidos:
+        <button class="chat-opt-btn" onclick="sendPredefined('ayuda')">⚙️ Mostrar Menú Principal</button>
+      `;
+        }
+
+        botBubble.innerHTML = responseHTML;
+        chatlog.appendChild(botBubble);
+        chatlog.scrollTop = chatlog.scrollHeight; // Auto-scroll al final
+
+        // Vincula automáticamente el custom-cursor a los nuevos botones dinámicos generados
+        if (
+          typeof document.body.classList.contains === "function" &&
+          document.body.classList.contains("custom-cursor-active")
+        ) {
+          botBubble.querySelectorAll("a, button").forEach((el) => {
+            el.addEventListener("mouseenter", () =>
+              document.body.classList.add("cursor-hover"),
+            );
+            el.addEventListener("mouseleave", () =>
+              document.body.classList.remove("cursor-hover"),
+            );
+          });
+        }
+      }
+    </script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.bundle.min.js"></script>

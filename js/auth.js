@@ -280,6 +280,144 @@ function resetZoom() {
     img.style.maxHeight = "100%";
   }
 }
+// ==========================================================================
+// VISOR DE ARCHIVOS INTEGRADO: APERTURA, ZOOM CON RUEDA Y ARRASTRE (PANEO)
+// ==========================================================================
+
+// Variables globales de estado para la matriz de transformación
+let scale = 1;
+let translateX = 0;
+let translateY = 0;
+let isDragging = false;
+let startX = 0;
+let startY = 0;
+
+// 1. FUNCIÓN PRINCIPAL PARA ABRIR EL MODAL Y CARGAR LA IMAGEN (Resuelve el d-none)
+// NOTA: Si tus botones dinámicos usan otro nombre (ej. abrirPdf o verRecurso), cambia este nombre.
+window.verArchivo = function (url, tipo) {
+  const imgContainer = document.getElementById("imageContainer");
+  const img = document.getElementById("pdfImage");
+  const pdfFrame = document.getElementById("pdfFrame");
+
+  // Muestra el modal de Bootstrap 4 de forma nativa
+  $("#pdfModal").modal("show");
+
+  // Validación inteligente: si es formato imagen o el tipo está explícito
+  if (tipo === "imagen" || url.match(/\.(jpeg|jpg|gif|png)$/i)) {
+    if (pdfFrame) pdfFrame.classList.add("d-none"); // Oculta el iframe de PDFs
+    if (imgContainer) imgContainer.classList.remove("d-none"); // ¡MUESTRA EL CONTENEDOR!
+
+    if (img) {
+      img.src = url;
+      resetZoom(); // Inicializa el zoom limpio y centrado cada vez que abre una imagen
+    }
+  } else {
+    // Si es un documento PDF o enlace externo
+    if (imgContainer) imgContainer.classList.add("d-none");
+    if (pdfFrame) {
+      pdfFrame.classList.remove("d-none");
+      pdfFrame.src = url;
+    }
+  }
+};
+
+// Función para renderizar los movimientos acelerados por la tarjeta gráfica (GPU)
+window.updateImageTransform = function () {
+  const img = document.getElementById("pdfImage");
+  if (!img) return;
+  // Si está arrastrando desactivamos la transición para evitar retraso visual (lag)
+  img.style.transition = isDragging
+    ? "none"
+    : "transform 0.15s cubic-bezier(0.25, 1, 0.5, 1)";
+  img.style.transform = `translate(${translateX}px, ${translateY}px) scale(${scale})`;
+};
+
+// 2. CONFIGURACIÓN DE ESCUCHADORES DE EVENTOS (Cuando el DOM esté completamente cargado)
+document.addEventListener("DOMContentLoaded", () => {
+  const imgContainer = document.getElementById("imageContainer");
+  const img = document.getElementById("pdfImage");
+
+  if (imgContainer && img) {
+    // CONTROL DE ZOOM CON LA RUEDA DEL MOUSE
+    imgContainer.addEventListener("wheel", (e) => {
+      e.preventDefault(); // Evita que la página completa haga scroll
+
+      const zoomSpeed = 0.12;
+      if (e.deltaY < 0) {
+        scale += zoomSpeed; // Rueda arriba: Acercar
+      } else {
+        scale -= zoomSpeed; // Rueda abajo: Alejar
+      }
+
+      // Restricción de zoom seguro (Mínimo 0.6x - Máximo 6x)
+      scale = Math.max(0.6, Math.min(scale, 6));
+
+      if (scale <= 1) {
+        translateX = 0;
+        translateY = 0;
+        img.style.cursor = "zoom-in";
+      } else {
+        img.style.cursor = "move";
+      }
+      updateImageTransform();
+    });
+
+    // INICIO DEL ARRASTRE (Clic sostenido)
+    img.addEventListener("mousedown", (e) => {
+      if (scale <= 1) return; // Solo permite arrastrar si tiene zoom activo
+
+      isDragging = true;
+      img.style.cursor = "grabbing";
+      startX = e.clientX - translateX;
+      startY = e.clientY - translateY;
+      e.preventDefault();
+    });
+
+    // MOVIMIENTO DEL ARRASTRE (Paneo libre)
+    window.addEventListener("mousemove", (e) => {
+      if (!isDragging) return;
+      translateX = e.clientX - startX;
+      translateY = e.clientY - startY;
+      updateImageTransform();
+    });
+
+    // FINALIZACIÓN DEL ARRASTRE
+    window.addEventListener("mouseup", () => {
+      if (isDragging) {
+        isDragging = false;
+        img.style.cursor = scale > 1 ? "move" : "zoom-in";
+      }
+    });
+  }
+});
+
+// 3. COMPATIBILIDAD CON LOS BOTONES FLOTANTES DEL VISOR (+ , - , Restaurar)
+window.zoomImg = function (factor) {
+  if (factor > 1) {
+    scale += 0.25;
+  } else {
+    scale -= 0.25;
+  }
+  scale = Math.max(0.6, Math.min(scale, 6));
+
+  if (scale <= 1) {
+    translateX = 0;
+    translateY = 0;
+  }
+
+  const img = document.getElementById("pdfImage");
+  if (img) img.style.cursor = scale > 1 ? "move" : "zoom-in";
+  updateImageTransform();
+};
+
+window.resetZoom = function () {
+  scale = 1;
+  translateX = 0;
+  translateY = 0;
+  const img = document.getElementById("pdfImage");
+  if (img) img.style.cursor = "zoom-in";
+  updateImageTransform();
+};
 async function subirEnlace(semana) {
   const url = prompt("Pega la URL del enlace:");
   if (!url) return;

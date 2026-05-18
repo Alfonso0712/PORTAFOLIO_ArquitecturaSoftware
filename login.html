@@ -21,40 +21,170 @@
     <link href="css/style.css" rel="stylesheet" />
 
     <style>
+      /* ==========================================================================
+         PORTAL DE INICIO DE SESIÓN TECH (LOGIN CORE STYLES)
+         ========================================================================== */
       body {
         background:
-          linear-gradient(rgba(0, 0, 0, 0.8), rgba(0, 0, 0, 0.8)),
-          url("img/definicion-software.png");
+          linear-gradient(rgba(13, 15, 18, 0.88), rgba(13, 15, 18, 0.95)),
+          url("img/definicion-software.png") no-repeat center center;
         background-size: cover;
-        background-position: center;
         height: 100vh;
         display: flex;
         align-items: center;
         justify-content: center;
+        margin: 0;
+        font-family: "Montserrat", sans-serif;
+        overflow: hidden;
+        position: relative;
       }
-      .login-card {
-        background: rgba(52, 58, 64, 0.95);
-        border: 2px solid #b89c6a; /* Tu color dorado */
-        border-radius: 15px;
-        padding: 40px;
+
+      /* Malla de cuadrícula digital de fondo acelerada por GPU */
+      body::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
         width: 100%;
-        max-width: 400px;
-        box-shadow: 0 15px 35px rgba(0, 0, 0, 0.5);
+        height: 100%;
+        background-image:
+          linear-gradient(rgba(180, 156, 115, 0.02) 1px, transparent 1px),
+          linear-gradient(90deg, rgba(180, 156, 115, 0.02) 1px, transparent 1px);
+        background-size: 30px 30px;
+        pointer-events: none;
+        z-index: 1;
       }
+
+      /* Contenedor Principal estilo Panel de Control Flotante */
+      .container,
+      .text-center.p-5 {
+        position: relative;
+        z-index: 2;
+        background: rgba(22, 27, 36, 0.65) !important;
+        border: 1px solid rgba(180, 156, 115, 0.2) !important;
+        backdrop-filter: blur(20px);
+        -webkit-backdrop-filter: blur(20px);
+        border-radius: 16px;
+        padding: 45px !important;
+        box-shadow:
+          0 20px 50px rgba(0, 0, 0, 0.6),
+          0 0 30px rgba(180, 156, 115, 0.05) !important;
+        max-width: 450px;
+        width: 100%;
+        transition:
+          border-color 0.4s ease,
+          box-shadow 0.4s ease;
+      }
+
+      .container:hover {
+        border-color: rgba(180, 156, 115, 0.45) !important;
+        box-shadow:
+          0 25px 60px rgba(0, 0, 0, 0.7),
+          0 0 40px rgba(180, 156, 115, 0.15) !important;
+      }
+
+      /* Título Principal con Brillo */
+      h2,
+      .display-4,
+      .mb-4.text-primary {
+        color: #ffffff !important;
+        font-family: "Roboto", sans-serif;
+        font-weight: 700 !important;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        font-size: 1.6rem !important;
+        margin-bottom: 35px !important;
+        text-shadow: 0 0 15px rgba(255, 255, 255, 0.1);
+      }
+
+      /* Etiquetas de los formularios (Campos) */
+      .form-group label {
+        color: #b49c73 !important; /* Tu dorado primario */
+        font-size: 0.78rem !important;
+        letter-spacing: 1.5px;
+        font-weight: 700 !important;
+        margin-bottom: 8px;
+        display: block;
+      }
+
+      /* Inputs / Campos de Entrada Estilo Consola */
       .form-control {
-        background: #1a1a1a !important;
-        border: 1px solid #444 !important;
-        color: white !important;
-        height: 50px;
+        background-color: rgba(13, 15, 18, 0.6) !important;
+        border: 1px solid rgba(255, 255, 255, 0.08) !important;
+        border-radius: 6px !important;
+        color: #ffffff !important;
+        height: 48px !important;
+        padding: 10px 16px !important;
+        font-size: 0.95rem !important;
+        transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1) !important;
       }
+
+      /* Efecto Focus: Resplandor perimetral al hacer clic para escribir */
       .form-control:focus {
-        border-color: #b89c6a !important;
-        box-shadow: none;
+        border-color: #b49c73 !important;
+        background-color: rgba(22, 27, 36, 0.8) !important;
+        box-shadow: 0 0 15px rgba(180, 156, 115, 0.25) !important;
+        outline: 0;
+      }
+
+      /* Placeholder (Texto de guía interno opaco) */
+      .form-control::placeholder {
+        color: rgba(255, 255, 255, 0.25) !important;
+      }
+
+      /* Botón de Inicio de Sesión de Alto Impacto */
+      .btn-primary.btn-block {
+        background: #b49c73 !important;
+        border: 1px solid #b49c73 !important;
+        color: #11141a !important;
+        height: 48px;
+        border-radius: 6px !important;
+        font-size: 0.9rem !important;
+        font-weight: 700 !important;
+        letter-spacing: 2px;
+        text-transform: uppercase;
+        margin-top: 30px !important;
+        box-shadow: 0 5px 15px rgba(180, 156, 115, 0.2) !important;
+        transition: all 0.4s cubic-bezier(0.25, 1, 0.5, 1) !important;
+      }
+
+      .btn-primary.btn-block:hover {
+        background: transparent !important;
+        color: #b49c73 !important;
+        box-shadow: 0 8px 25px rgba(180, 156, 115, 0.45) !important;
+        transform: translateY(-2px);
+      }
+
+      /* Enlace de Retorno / Volver al Inicio */
+      .mt-4 a.text-white-50 {
+        color: rgba(255, 255, 255, 0.4) !important;
+        text-decoration: none !important;
+        font-size: 0.8rem !important;
+        letter-spacing: 0.5px;
+        transition:
+          color 0.3s ease,
+          text-shadow 0.3s ease;
+      }
+
+      .mt-4 a.text-white-50:hover {
+        color: #ffffff !important;
+        text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+      }
+
+      .mt-4 a.text-white-50 i {
+        transition: transform 0.3s ease;
+      }
+      .mt-4 a.text-white-50:hover i {
+        transform: translateX(
+          -4px
+        ); /* Flecha se mueve a la izquierda inmersivamente */
       }
     </style>
   </head>
 
   <body>
+    <div id="custom-cursor"></div>
+    <div id="custom-cursor-blur"></div>
     <div class="login-card text-center">
       <a href="index.html">
         <img
@@ -64,11 +194,7 @@
           style="max-height: 80px"
         />
       </a>
-
-      <h3 class="text-white text-uppercase mb-4" style="letter-spacing: 3px">
-        Acceso Admin
-      </h3>
-
+      <h2 class="mb-4 text-primary scramble-txt">Iniciar Sesión</h2>
       <form id="loginForm">
         <div class="form-group text-left">
           <label class="text-primary small font-weight-bold"
@@ -122,6 +248,113 @@
           // Llamamos a la función
           iniciarSesion(email, pass);
         });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}";
+
+        const triggerScramble = (element) => {
+          const originalText = element.innerText;
+          let iteration = 0;
+          clearInterval(element.interval);
+
+          element.interval = setInterval(() => {
+            element.innerText = originalText
+              .split("")
+              .map((letter, index) => {
+                if (index < iteration) return originalText[index];
+                if (letter === " ") return " ";
+                return chars[Math.floor(Math.random() * chars.length)];
+              })
+              .join("");
+
+            if (iteration >= originalText.length)
+              clearInterval(element.interval);
+            iteration += 1 / 3;
+          }, 30);
+        };
+
+        const title = document.querySelector(".scramble-txt");
+        if (title) {
+          setTimeout(() => {
+            triggerScramble(title);
+          }, 400);
+          title.addEventListener("mouseenter", () => triggerScramble(title));
+        }
+      });
+    </script>
+    <script>
+      const cursor = document.getElementById("custom-cursor");
+      const cursorBlur = document.getElementById("custom-cursor-blur");
+
+      document.addEventListener("mousemove", (e) => {
+        cursor.style.left = e.clientX + "px";
+        cursor.style.top = e.clientY + "px";
+
+        cursorBlur.style.left = e.clientX + "px";
+        cursorBlur.style.top = e.clientY + "px";
+      });
+
+      // Detectar hovers en elementos interactivos
+      document.querySelectorAll("a, button, .btn").forEach((el) => {
+        el.addEventListener("mouseenter", () =>
+          document.body.classList.add("cursor-hover"),
+        );
+        el.addEventListener("mouseleave", () =>
+          document.body.classList.remove("cursor-hover"),
+        );
+      });
+    </script>
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        // Banco de caracteres tecnológicos alternativos
+        const chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&*+-/<>[]{}";
+
+        const triggerScramble = (element) => {
+          const originalText = element.dataset.value || element.innerText;
+          element.dataset.value = originalText; // Resguarda el texto original de forma segura
+
+          let iteration = 0;
+          clearInterval(element.interval);
+
+          element.interval = setInterval(() => {
+            element.innerText = originalText
+              .split("")
+              .map((letter, index) => {
+                // Si el iterador ya pasó esta posición, revela la letra real
+                if (index < iteration) return originalText[index];
+                // Respeta los espacios en blanco para no deformar la estructura
+                if (letter === " ") return " ";
+                // Muestra un carácter aleatorio del banco
+                return chars[Math.floor(Math.random() * chars.length)];
+              })
+              .join("");
+
+            if (iteration >= originalText.length) {
+              clearInterval(element.interval);
+            }
+            // Velocidad de desencriptación controlada
+            iteration += 1 / 3;
+          }, 30);
+        };
+
+        // Selecciona los textos configurados
+        const scrambleElements = document.querySelectorAll(".scramble-txt");
+
+        // 1. EFECTO DE ENTRADA: Se ejecuta automáticamente al cargar la página
+        scrambleElements.forEach((el) => {
+          el.dataset.value = el.innerText; // Guarda la cadena original antes de cambiarla
+          setTimeout(() => {
+            triggerScramble(el);
+          }, 600); // Pequeño delay inicial para sincronizarlo con la fluidez visual
+        });
+
+        // 2. EFECTO INTERACTIVO: Se reactiva al pasar el puntero del mouse
+        scrambleElements.forEach((el) => {
+          el.style.cursor = "default";
+          el.addEventListener("mouseenter", () => triggerScramble(el));
+        });
+      });
     </script>
   </body>
 </html>
